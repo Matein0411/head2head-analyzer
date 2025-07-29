@@ -52,6 +52,11 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// ATP specific colors
+				'atp-blue': 'hsl(var(--atp-blue))',
+				'atp-yellow': 'hsl(var(--atp-yellow))',
+				'player-card': 'hsl(var(--player-card-bg))',
+				'stats-border': 'hsl(var(--stats-border))',
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
