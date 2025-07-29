@@ -1,71 +1,24 @@
-import { Search, Globe } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
 const Header = () => {
-  const navigationItems = [
-    "Scores",
-    "Latest", 
-    "H2H",
-    "Stats",
-    "Rankings",
-    "Players",
-    "Tournaments", 
-    "Challenger",
-    "More"
-  ];
-
   return (
-    <header className="bg-background border-b border-border">
-      {/* Top Bar */}
-      <div className="bg-atp-blue text-white py-2">
-        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-sm">
-          <span>IT'S AI & DIGITAL INNOVATION PARTNER</span>
-          <div className="flex items-center gap-2">
-            <Globe className="w-4 h-4" />
-            <span>EN</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Navigation */}
+    <header className="bg-black/60 backdrop-blur-md border-b border-border sticky top-0 z-30 transition-all duration-300 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-8">
-            {/* ATP Logo */}
-            <div className="flex items-center">
-              <div className="text-2xl font-bold text-foreground">
-                ATP TOUR
-              </div>
-              <div className="text-xs text-muted-foreground ml-2">
-                It all adds up
-              </div>
+          <div className="flex items-center gap-2">
+            {/* Logo y nombre */}
+            <img src="/tennis-icon.png" alt="Logo TennAI" className="w-16 h-14 object-contain" />
+            <div className="mr-2">
+              <div className="text-2xl font-bold text-foreground">TennAI</div>
+              <div className="text-xs text-muted-foreground">la ia a tu alcance</div>
             </div>
-
-            {/* Navigation */}
-            <nav className="flex items-center gap-6">
-              {navigationItems.map((item) => (
-                <button
-                  key={item}
-                  className={`text-sm font-medium transition-colors hover:text-atp-blue ${
-                    item === "H2H" 
-                      ? "text-atp-blue border-b-2 border-atp-blue pb-4" 
-                      : "text-foreground hover:text-atp-blue"
-                  }`}
-                >
-                  {item}
-                </button>
-              ))}
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <Button variant="ghost" size="icon">
-              <Search className="w-5 h-5" />
-            </Button>
-            <div className="bg-red-600 text-white px-3 py-1 text-sm font-bold">
-              Emirates
+            <div className="flex gap-7">
+              <button className="text-base text-muted-foreground hover:text-atp-blue font-medium bg-transparent border-none p-0 m-0 transition-colors duration-200 rounded hover:bg-muted/60">Información</button>
+              <button className="text-base text-muted-foreground hover:text-atp-blue font-medium bg-transparent border-none p-0 m-0 transition-colors duration-200 rounded hover:bg-muted/60">Predecir</button>
+              <button className="text-base text-muted-foreground hover:text-atp-blue font-medium bg-transparent border-none p-0 m-0 transition-colors duration-200 rounded hover:bg-muted/60">Jugadores</button>
             </div>
           </div>
+          <button className="bg-red-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition">
+            Log out
+          </button>
         </div>
       </div>
     </header>
