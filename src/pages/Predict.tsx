@@ -40,7 +40,7 @@ const countryCodeMap: { [key: string]: string } = {
 };
 
 
-const Predecir = () => {
+const Predict = () => {
   // Estado estrictamente tipado
   const [nextMatches, setNextMatches] = useState<NextMatch[]>([]);
   const [player1Data, setPlayer1Data] = useState<PlayerData>(initialPlayer1);
@@ -174,4 +174,4 @@ const Predecir = () => {
   );
 };
 
-export default Predecir;
+export default Predict;

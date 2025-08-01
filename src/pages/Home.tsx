@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import { FaBolt, FaDollarSign, FaRegCreditCard } from "react-icons/fa";
 import AnimatedFeature from "../components/AnimatedFeature";
 
-const Landing = () => {
+const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-black to-yellow-400 flex flex-col">
       <Header />
@@ -18,7 +18,7 @@ const Landing = () => {
         <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto mb-8 z-10 animate-fade-in" style={{ animationDelay: '200ms' }}>
           La plataforma inteligente para comparar jugadores de tenis, predecir resultados y descubrir estadísticas clave en segundos. ¡Impulsa tu análisis y toma mejores decisiones!
         </p>
-        <a href="/home" className="inline-block bg-atp-blue text-white font-bold px-8 py-4 rounded-full shadow-lg hover:bg-atp-yellow hover:text-black transition-all text-lg z-10 animate-pop" style={{ animationDelay: '400ms' }}>
+        <a href="/Predict" className="inline-block bg-atp-blue text-white font-bold px-8 py-4 rounded-full shadow-lg hover:bg-atp-yellow hover:text-black transition-all text-lg z-10 animate-pop" style={{ animationDelay: '400ms' }}>
           Probar ahora
         </a>
         <div className="absolute left-0 top-0 w-32 h-32 bg-atp-yellow rounded-full blur-2xl opacity-30 animate-float" />
@@ -118,7 +118,7 @@ const Landing = () => {
               <p className="text-base text-gray-200 text-center flex-1">Puedes recargar tu saldo en cualquier momento y seguir disfrutando de análisis avanzados sin límites.</p>
             </div>
           </div>
-          <a href="/home" className="inline-block bg-atp-blue text-white font-bold px-6 py-3 rounded-full shadow hover:bg-atp-yellow hover:text-black transition-all text-base animate-pop mt-6" style={{ animationDelay: '800ms' }}>
+          <a href="/  " className="inline-block bg-atp-blue text-white font-bold px-6 py-3 rounded-full shadow hover:bg-atp-yellow hover:text-black transition-all text-base animate-pop mt-6" style={{ animationDelay: '800ms' }}>
             Registrarse y obtener $1 gratis
           </a>
         </div>
@@ -128,4 +128,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default Home;
