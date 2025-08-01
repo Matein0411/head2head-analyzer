@@ -11,8 +11,8 @@ const Header = () => {
               <div className="text-xs text-muted-foreground">la ia a tu alcance</div>
             </div>
             <div className="flex gap-7">
-              <button className="text-base text-muted-foreground hover:text-atp-blue font-medium bg-transparent border-none p-0 m-0 transition-colors duration-200 rounded hover:bg-muted/60">Información</button>
-              <button className="text-base text-muted-foreground hover:text-atp-blue font-medium bg-transparent border-none p-0 m-0 transition-colors duration-200 rounded hover:bg-muted/60">Predecir</button>
+              <a href="/" className="text-base text-muted-foreground hover:text-atp-blue font-medium bg-transparent border-none p-0 m-0 transition-colors duration-200 rounded hover:bg-muted/60">Información</a>
+              <a href="/predecir" className="text-base text-muted-foreground hover:text-atp-blue font-medium bg-transparent border-none p-0 m-0 transition-colors duration-200 rounded hover:bg-muted/60">Predecir</a>
               <button className="text-base text-muted-foreground hover:text-atp-blue font-medium bg-transparent border-none p-0 m-0 transition-colors duration-200 rounded hover:bg-muted/60">Jugadores</button>
             </div>
           </div>

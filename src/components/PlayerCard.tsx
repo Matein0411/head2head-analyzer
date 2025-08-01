@@ -1,20 +1,7 @@
 import { Search } from "lucide-react";
 import { KeyboardEvent, useState } from "react";
 
-// 1. Definimos una interfaz para el objeto de datos del jugador
-interface PlayerData {
-  name: string;
-  country: string;
-  countryCode: string;
-  rank: number;
-  minRank: number;
-  age: number;
-  height: string;
-  hand: string;
-  image: string;
-}
-
-// 2. Los props del componente ahora son más limpios
+import type { PlayerData } from "@/types/player";
 interface PlayerCardProps {
   playerData: PlayerData;
   onSearch: (playerName: string) => void;

@@ -1,5 +1,5 @@
 
-interface FutureMatch {
+interface NextMatch {
   date: string;
   tournament: string;
   tournamentType: string;
@@ -9,15 +9,16 @@ interface FutureMatch {
 }
 
 
-interface FutureMatchesProps {
-  matches: FutureMatch[];
+interface NextMatchesProps {
+  matches: NextMatch[];
+  onCompare?: (match: NextMatch) => void;
 }
 
+const NextMatches = ({ matches, onCompare }: NextMatchesProps) => {
 
-const FutureMatches = ({ matches }: FutureMatchesProps) => {
   return (
     <div className="bg-card rounded-lg p-6 border border-border">
-      <h2 className="text-xl font-bold text-foreground mb-6">Partidos Futuros</h2>
+      <h2 className="text-xl font-bold text-foreground mb-6">Próximos Partidos</h2>
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
@@ -36,20 +37,23 @@ const FutureMatches = ({ matches }: FutureMatchesProps) => {
             {matches.map((match, index) => (
               <tr key={index} className="border-b border-border">
                 <td className="py-3 text-foreground">{match.date}</td>
-                <td className="py-3 text-foreground">{match.player1}</td>
-                <td className="py-3 text-foreground">{match.player2}</td>
                 <td className="py-3 text-foreground">{match.tournament}</td>
                 <td className="py-3 text-foreground">{match.tournamentType}</td>
                 <td className="py-3 text-foreground">{match.surface}</td>
+                <td className="py-3 text-foreground">{match.player1}</td>
+                <td className="py-3 text-foreground">{match.player2}</td>
                 <td className="py-3">
                   <button className="text-atp-blue hover:underline">
                     Ver detalles
                   </button>
                 </td>
                 <td className="py-3">
-                  <button className="bg-atp-blue text-white px-4 py-1 rounded-full font-semibold hover:bg-atp-blue/90 transition">
-                    Comparar
-                  </button>
+                <button
+                  className="bg-atp-blue text-white px-4 py-1 rounded-full font-semibold hover:bg-atp-blue/90 transition"
+                  onClick={() => onCompare && onCompare(match)}
+                >
+                  Comparar
+                </button>
                 </td>
               </tr>
             ))}
@@ -61,4 +65,4 @@ const FutureMatches = ({ matches }: FutureMatchesProps) => {
   );
 };
 
-export default FutureMatches;
+export default NextMatches;
