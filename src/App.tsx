@@ -9,6 +9,7 @@ import Login from "./pages/auth/Login";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Predict from "./pages/Predict";
+import SignUp from "./pages/auth/SignUp";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,11 @@ const App = () => (
                 </PrivateRoute>
               }
             />
+            <Route path="/SignUp" 
+            element={<PrivateRoute>
+              <SignUp />
+              </PrivateRoute>
+            } />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

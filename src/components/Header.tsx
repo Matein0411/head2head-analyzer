@@ -35,7 +35,7 @@ export default function Header() {
             ) : (
               <Link
                 to="/Login"
-                className="flex items-center justify-center w-11 h-11 rounded-full hover:bg-white/10 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/60 focus:ring-offset-2"
+                className="flex items-center justify-center w-11 h-11 rounded-full hover:bg-gray-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 focus:ring-offset-2"
                 aria-label="Log in"
               >
                 <UserCircle2 size={28} className="text-white" />

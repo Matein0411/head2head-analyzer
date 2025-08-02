@@ -1,6 +1,22 @@
+import { auth } from "@/lib/firebase";
 import axios from 'axios';
+import type { NextMatch, Player, SimpleH2HStats } from "../types/player";
+import type { CreditUpdate, UserProfile } from "../types/user";
 
 const API_URL = import.meta.env.VITE_API_URL;
+
+const getAuthHeaders = async () => {
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error("Usuario no autenticado para realizar esta acción.");
+  }
+  const token = await user.getIdToken();
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
 
 // Mapeos para traducir los datos de la UI al formato de la API de comparación
 const tourneyTypeMapping: Record<string, string> = {
@@ -44,7 +60,6 @@ const getComparisonBasic = async (
   }
 };
 
-import type { NextMatch, Player, SimpleH2HStats } from "../types/player";
 
 /**
  * Busca un jugador de tenis por su nombre.
@@ -65,7 +80,6 @@ const getPlayerByName = async (playerName: string): Promise<Player> => {
   }
 };
 
-// ...existing code...
 
 /**
  * Obtiene el H2H simple entre dos jugadores.
@@ -101,11 +115,59 @@ const getNextMatches = async (): Promise<NextMatch[]> => {
 }
 
 
+/**
+ * Sincroniza el usuario de Firebase con la base de datos del backend.
+ * Se debe llamar después de un login/registro exitoso.
+ */
+const syncUser = async (): Promise<UserProfile> => {
+  try {
+    const config = await getAuthHeaders();
+    const response = await axios.post(`${API_URL}/users/auth/sync`, {}, config); 
+    return response.data;
+  } catch (error) {
+    console.error("Error al sincronizar el usuario:", error);
+    throw error;
+  }
+};
+
+/**
+ * Obtiene el perfil del usuario actualmente logueado desde el backend.
+ */
+const getProfile = async (): Promise<UserProfile> => {
+  try {
+    const config = await getAuthHeaders();
+    const response = await axios.get(`${API_URL}/users/me`, config);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el perfil del usuario:", error);
+    throw error;
+  }
+};
+
+/**
+ * Envía una petición para realizar una predicción, descontando créditos.
+ */
+const updateCredit = async (data: CreditUpdate): Promise<CreditUpdate> => {
+  try {
+    const config = await getAuthHeaders();
+    const response = await axios.post(`${API_URL}/users/predict`, data, config);
+    return response.data;
+  } catch (error) {
+    console.error("Error al realizar la predicción:", error);
+    throw error;
+  }
+};
+
+
 export const tennisPlayerService = {
+  // Funciones públicas
   getPlayerByName,
   getSimpleH2HStats,
   getComparisonBasic,
   getNextMatches,
-};  
-
+  // Funciones seguras
+  syncUser,
+  getProfile,
+  updateCredit,
+};
 

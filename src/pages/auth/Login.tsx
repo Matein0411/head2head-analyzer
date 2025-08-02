@@ -1,6 +1,7 @@
 import { useAuth } from "@/context/AuthContext";
 import { auth } from "@/lib/firebase.tsx";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { tennisPlayerService } from "@/services/tennisPlayer.service";
+import { GoogleAuthProvider, signInWithPopup, UserCredential } from "firebase/auth"; // Importa UserCredential si usas TS estricto
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -43,10 +44,10 @@ export default function Login() {
             <button className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white hover:from-blue-700 hover:to-blue-500 rounded-lg py-2 font-semibold shadow transition-all duration-200">Login</button>
           </form>
           <div className="flex justify-between w-full">
-            <Link to="/sign-up" className="font-semibold text-sm text-[#1f50aa] hover:text-[#173b8a] hover:underline transition-colors">
+            <Link to="/SignUp" className="font-semibold text-sm text-[#1f50aa] hover:text-[#173b8a] hover:underline transition-colors">
               New? Create an account
             </Link>
-            <Link to="/forget-password" className="font-semibold text-sm text-[#1f50aa] hover:text-[#173b8a] hover:underline transition-colors">
+            <Link to="/ForgetPassword" className="font-semibold text-sm text-[#1f50aa] hover:text-[#173b8a] hover:underline transition-colors">
               Forgot password?
             </Link>
           </div>
@@ -63,7 +64,8 @@ function SignInWithGoogleComponent() {
   const handleLogin = async () => {
     setIsLoading(true);
     try {
-      await signInWithPopup(auth, new GoogleAuthProvider());
+      const userCredential: UserCredential = await signInWithPopup(auth, new GoogleAuthProvider());
+      await tennisPlayerService.syncUser();
     } catch (error) {
       console.error(error);
     }
