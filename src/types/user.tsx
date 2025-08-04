@@ -17,9 +17,7 @@ export interface UserProfile {
 export interface CreditUpdate {
   firebase_uid: string;
   new_credits: number;
-  // Aquí irían los resultados de la predicción
-  // winner: string;
-  // probability: number;
+  prediction_data?: any; // Datos de predicción opcionales para la API
 }
 
 /**

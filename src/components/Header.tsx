@@ -2,6 +2,7 @@ import { useAuth } from "@/context/AuthContext";
 import { UserCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
+import UserCredits from "./UserCredits";
 
 export default function Header() {
   const { user, isLoading } = useAuth();
@@ -26,12 +27,15 @@ export default function Header() {
             </div>
           </div>
           
-          <div className="flex items-center">
+          <div className="flex items-center gap-4">
             {isLoading ? (
               // Muestra un placeholder mientras carga para evitar parpadeos
               <div className="w-24 h-10 bg-gray-700 rounded-full animate-pulse"></div>
             ) : user ? (
-              <LogoutButton />
+              <>
+                <UserCredits />
+                <LogoutButton />
+              </>
             ) : (
               <Link
                 to="/Login"

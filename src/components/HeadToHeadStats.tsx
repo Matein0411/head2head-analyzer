@@ -1,4 +1,5 @@
 import { ToastDescription, ToastTitle } from "@/components/ui/toast";
+import { useUserProfile } from "@/context/UserProfileContext";
 import { toast } from "@/hooks/use-toast";
 import { predictApiService } from "@/services/predictApi.service";
 import { tennisPlayerService } from "@/services/tennisPlayer.service";
@@ -16,7 +17,6 @@ interface HeadToHeadStatsProps {
 }
 
 const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
-  // Usar SIEMPRE los props, nunca fallback a searchParams ni estado local
   const player1Name = props.player1Name || "";
   const player2Name = props.player2Name || "";
   const surface = props.surface || "";
@@ -30,12 +30,14 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
   const [probabilities, setProbabilities] = useState<{p1: number, p2: number} | null>(null);
   const [loading, setLoading] = useState(false);
   const confettiShown = useRef(false);
+  
+  const { profile, updateCredits } = useUserProfile();
 
   const total = leftWins + rightWins;
   const leftPercent = total > 0 ? Math.round((leftWins / total) * 100) : 50;
   const rightPercent = total > 0 ? 100 - leftPercent : 50;
 
-  // Actualiza H2H simple automáticamente al cambiar los nombres
+  // Actualizar H2H automáticamente al cambiar los nombres de jugadores
   useEffect(() => {
     if (!player1Name || !player2Name) {
       setLeftWins(0);
@@ -114,12 +116,15 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
       return;
     }
     setLoading(true);
+    
     try {
-      // Simula un delay de IA
+      // Simular delay de IA
       await new Promise(res => setTimeout(res, 3000));
-      // 1. Obtener los datos de comparación de la otra API
+      
+      // Obtener datos de comparación
       const data = await tennisPlayerService.getComparisonBasic(player1Name, player2Name, surface, tournamentType);
-      // 2. Enviar esos datos a la API de predicción
+      
+      // Realizar predicción
       const prediction = await predictApiService.predict(data);
       setProbabilities({
         p1: prediction.probability_p1_wins,
@@ -127,6 +132,24 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
       });
       setShowPrediction(true);
       confettiShown.current = false;
+
+      // Actualizar créditos en el backend
+      if (profile) {
+        try {
+          const updatedCreditData = await tennisPlayerService.updateCredit({
+            firebase_uid: profile.firebase_uid,
+            prediction_data: data,
+            new_credits: 0
+          });
+          updateCredits(updatedCreditData.new_credits);
+        } catch (creditError) {
+          console.error("Error al actualizar créditos:", creditError);
+          toast({
+            description: "Error al actualizar créditos. Recarga la página para ver el estado actual.",
+            variant: "destructive",
+          });
+        }
+      }
     } catch (e) {
       toast({
         description: (
@@ -167,7 +190,6 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
 
   return (
     <div className="bg-card rounded-lg p-6 border border-border flex flex-col items-center">
-      {/* Círculo H2H con victorias */}
       <div className="flex items-center justify-center mb-8 gap-12">
         <span className="text-6xl font-bold text-white drop-shadow-lg">
           {h2hLoading ? '-' : leftWins}
@@ -180,9 +202,7 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
         </span>
       </div>
 
-      {/* Selectores de superficie y tipo de torneo */}
       <div className="w-full flex justify-center gap-8 mb-8">
-        {/* Selector de superficie */}
         <div className="flex flex-col items-center">
           <label htmlFor="surface" className="mb-2 text-white font-semibold">Superficie</label>
           <div className="relative w-full min-w-[180px]">
@@ -198,13 +218,11 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
               <option className="bg-black/80 text-white" value="Clay">Arcilla</option>
               <option className="bg-black/80 text-white" value="Grass">Césped</option>
             </select>
-            {/* Flecha blanca personalizada */}
             <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </div>
         </div>
-        {/* Selector de tipo de torneo */}
         <div className="flex flex-col items-center">
           <label htmlFor="tournament" className="mb-2 text-white font-semibold">Tipo de torneo</label>
           <div className="relative w-full min-w-[180px]">
@@ -223,7 +241,6 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
               <option className="bg-black/80 text-white" value="D">Davis Cup</option>
               <option className="bg-black/80 text-white" value="O">Olímpicos</option>
             </select>
-            {/* Flecha blanca personalizada */}
             <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
@@ -231,7 +248,6 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
         </div>
       </div>
 
-      {/* Botón Predecir */}
       <div className="w-full flex justify-center mb-8">
         <button
           className="bg-black/0 border-2 border-white text-white px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 ease-in-out hover:bg-black/0 hover:scale-105 hover:shadow-lg disabled:opacity-60"
@@ -248,7 +264,6 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
         </button>
       </div>
 
-      {/* Ganador predicho solo si showPrediction */}
       {showPrediction && probabilities && (
         <div className="w-full max-w-md flex flex-col items-center">
           <span className="mb-2 text-lg font-semibold text-foreground">Probabilidad de victoria:</span>

@@ -1,15 +1,16 @@
-import AuthContextProvider from "./context/AuthContext";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import AuthContextProvider from "./context/AuthContext";
+import { UserProfileProvider } from "./context/UserProfileContext";
 
 import Login from "./pages/auth/Login";
+import SignUp from "./pages/auth/SignUp";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Predict from "./pages/Predict";
-import SignUp from "./pages/auth/SignUp";
 
 const queryClient = new QueryClient();
 
@@ -23,11 +24,12 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
 
 const App = () => (
   <AuthContextProvider>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+    <UserProfileProvider>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
           <Routes>
             <Route path="/Login" element={<Login />} />
             <Route
@@ -56,6 +58,7 @@ const App = () => (
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
+    </UserProfileProvider>
   </AuthContextProvider>
 );
 
