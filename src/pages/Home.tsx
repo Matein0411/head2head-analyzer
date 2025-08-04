@@ -1,128 +1,190 @@
+import grassImage from "@/assets/grass.png";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { FaBolt, FaDollarSign, FaRegCreditCard } from "react-icons/fa";
-import AnimatedFeature from "../components/AnimatedFeature";
+import { FaBrain, FaChartLine, FaUsers } from "react-icons/fa";
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-black to-yellow-400 flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-background via-card to-secondary">
       <Header />
-      {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center py-24 px-4 text-center relative overflow-hidden">
-        <div className="absolute inset-0 z-0 pointer-events-none animate-gradient-move">
-          <div className="w-full h-full bg-[url('/public/tennis-icon.png')] bg-no-repeat bg-center bg-contain opacity-20" />
+      
+      {/* Contenedor del cuerpo con barras laterales */}
+      <div className="flex relative min-h-[calc(100vh-80px)]">
+        {/* Barra Lateral Izquierda */}
+        <div className="hidden lg:flex w-64 bg-[#FFFFF0] items-center justify-center">
+          <img 
+            src={grassImage} 
+            alt="Grass court left" 
+            className="w-full h-full object-cover opacity-90"
+            style={{ objectPosition: 'left center' }}
+          />
         </div>
-        <h1 className="text-5xl md:text-7xl font-extrabold text-white drop-shadow-lg mb-6 z-10 animate-fade-in">
-          Head2Head Analyzer
-        </h1>
-        <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto mb-8 z-10 animate-fade-in" style={{ animationDelay: '200ms' }}>
-          La plataforma inteligente para comparar jugadores de tenis, predecir resultados y descubrir estadísticas clave en segundos. ¡Impulsa tu análisis y toma mejores decisiones!
-        </p>
-        <a href="/Predict" className="inline-block bg-atp-blue text-white font-bold px-8 py-4 rounded-full shadow-lg hover:bg-atp-yellow hover:text-black transition-all text-lg z-10 animate-pop" style={{ animationDelay: '400ms' }}>
-          Probar ahora
-        </a>
-        <div className="absolute left-0 top-0 w-32 h-32 bg-atp-yellow rounded-full blur-2xl opacity-30 animate-float" />
-        <div className="absolute right-0 bottom-0 w-32 h-32 bg-atp-blue rounded-full blur-2xl opacity-30 animate-float-reverse" />
-      </section>
+
+        {/* Contenido central con ancho fijo */}
+        <div className="flex-1 flex flex-col">
+          {/* Hero Section */}
+          <section className="flex flex-col items-center justify-center py-24 px-4 text-center relative overflow-hidden bg-gradient-to-b from-transparent via-background/50 to-card/30">
+            <div className="absolute inset-0 z-0 pointer-events-none">
+              <div className="w-full h-full bg-[url('/public/tennis-icon.png')] bg-no-repeat bg-center bg-contain opacity-10" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+            </div>
+            <h1 className="text-5xl md:text-7xl font-extrabold text-foreground drop-shadow-2xl mb-6 z-10 animate-fade-in">
+              Head2Head Analyzer
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-8 z-10 animate-fade-in leading-relaxed" style={{ animationDelay: '200ms' }}>
+              La plataforma inteligente para comparar jugadores de tenis, predecir resultados y descubrir estadísticas clave en segundos. ¡Impulsa tu análisis y toma mejores decisiones!
+            </p>
+            <a href="/Predict" className="inline-block bg-gradient-to-r from-primary to-primary/80 hover:from-accent hover:to-accent/90 text-primary-foreground hover:text-accent-foreground font-bold px-8 py-4 rounded-full shadow-2xl hover:shadow-accent/25 transition-all duration-300 text-lg z-10 animate-pop transform hover:scale-105" style={{ animationDelay: '400ms' }}>
+              Probar ahora
+            </a>
+            <div className="absolute left-0 top-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl opacity-60 animate-float" />
+            <div className="absolute right-0 bottom-0 w-32 h-32 bg-accent/10 rounded-full blur-3xl opacity-50 animate-float-reverse" />
+          </section>
 
       {/* Features Section */}
-      <section className="bg-black/80 py-16 px-4 flex flex-col items-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-atp-yellow mb-8 animate-fade-in">¿Por qué elegir Head2Head Analyzer?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 w-full max-w-5xl">
-          <AnimatedFeature
-            icon={<img src="/public/tennis-icon.png" alt="Comparación" className="w-16 h-16" />}
-            title="Comparación instantánea"
-            description="Compara cualquier par de jugadores ATP/WTA y obtén estadísticas clave, historial y predicciones en segundos."
-            delay={0}
-          />
-          <AnimatedFeature
-            icon={<img src="/public/placeholder.svg" alt="Predicción" className="w-16 h-16" />}
-            title="Predicción con IA"
-            description="Nuestra IA analiza datos históricos y actuales para predecir el resultado más probable de cada enfrentamiento."
-            delay={200}
-          />
-          <AnimatedFeature
-            icon={<img src="/public/tennis-icon.png" alt="Estadísticas" className="w-16 h-16" />}
-            title="Estadísticas visuales"
-            description="Visualiza porcentajes, gráficos y tendencias para tomar decisiones informadas y mejorar tu análisis."
-            delay={400}
-          />
+      <section className="bg-gradient-to-b from-black/80 via-gray-900/90 to-gray-800/80 py-16 px-4 flex flex-col items-center">
+        <h2 className="text-3xl md:text-4xl font-bold mb-8 animate-fade-in text-center">
+          <span className="text-transparent bg-gradient-to-r from-yellow-400/80 to-amber-600/60 bg-clip-text">
+            ¿Por qué elegir<br />
+            Head to Head Analyzer?
+          </span>
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
+          <div className="bg-gradient-to-br from-slate-700/80 to-slate-800/90 rounded-xl p-6 shadow-lg border border-slate-600/40 hover:border-primary/50 flex flex-col items-center animate-fade-in transition-all duration-300 transform hover:scale-105 group">
+            <div className="mb-5 p-3 rounded-full bg-slate-600/30 border border-slate-500/40 group-hover:bg-primary/20 group-hover:border-primary/60 transition-all duration-300">
+              <FaUsers className="w-12 h-12 text-blue-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-3 text-center group-hover:text-primary/90 transition-colors duration-300">Comparación instantánea</h3>
+            <p className="text-slate-300 text-center leading-relaxed text-sm transition-colors duration-300">Compara cualquier par de jugadores ATP/WTA y obtén estadísticas clave, historial y predicciones en segundos.</p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-slate-700/80 to-slate-800/90 rounded-xl p-6 shadow-lg border border-slate-600/40 hover:border-yellow-400 flex flex-col items-center animate-fade-in transition-all duration-300 transform hover:scale-105 group" style={{ animationDelay: '200ms' }}>
+            <div className="mb-5 p-3 rounded-full bg-slate-600/30 border border-slate-500/40 group-hover:bg-primary/20 group-hover:border-primary/60 transition-all duration-300">
+              <FaBrain className="w-12 h-12 text-purple-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-3 text-center group-hover:text-yellow-400 transition-colors duration-300">Predicción con IA</h3>
+            <p className="text-slate-300 text-center leading-relaxed text-sm transition-colors duration-300">Nuestra IA analiza datos históricos y actuales para predecir el resultado más probable de cada enfrentamiento.</p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-slate-700/80 to-slate-800/90 rounded-xl p-6 shadow-lg border border-slate-600/40 hover:border-primary/50 flex flex-col items-center animate-fade-in transition-all duration-300 transform hover:scale-105 group" style={{ animationDelay: '400ms' }}>
+            <div className="mb-5 p-3 rounded-full bg-slate-600/30 border border-slate-500/40 group-hover:bg-primary/20 group-hover:border-primary/60 transition-all duration-300">
+              <FaChartLine className="w-12 h-12 text-green-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-3 text-center group-hover:text-primary/90 transition-colors duration-300">Estadísticas visuales</h3>
+            <p className="text-slate-300 text-center leading-relaxed text-sm transition-colors duration-300">Visualiza porcentajes, gráficos y tendencias para tomar decisiones informadas y mejorar tu análisis.</p>
+          </div>
         </div>
       </section>
-<style>
-  {`
-    .animate-fade-in {
-      animation: fadeIn 1s ease forwards;
-      opacity: 0;
-    }
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-    .animate-pop {
-      animation: popIn 0.7s cubic-bezier(.17,.67,.83,.67) forwards;
-      opacity: 0;
-    }
-    @keyframes popIn {
-      0% { transform: scale(0.7); opacity: 0; }
-      80% { transform: scale(1.1); opacity: 1; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .animate-bounce-slow {
-      animation: bounceSlow 2.5s infinite;
-    }
-    @keyframes bounceSlow {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-16px); }
-    }
-    .animate-gradient-move {
-      animation: gradientMove 8s linear infinite alternate;
-    }
-    @keyframes gradientMove {
-      0% { background-position: left top; }
-      100% { background-position: right bottom; }
-    }
-    .animate-float {
-      animation: float 6s ease-in-out infinite alternate;
-    }
-    .animate-float-reverse {
-      animation: floatReverse 6s ease-in-out infinite alternate;
-    }
-    @keyframes float {
-      0% { transform: translateY(0) scale(1); }
-      100% { transform: translateY(-30px) scale(1.1); }
-    }
-    @keyframes floatReverse {
-      0% { transform: translateY(0) scale(1); }
-      100% { transform: translateY(30px) scale(1.1); }
-    }
-  `}
-    </style>
-      {/* AI Credits Section (fondo transparente con iconos) */}
-      <section className="py-16 px-4 flex flex-col items-center bg-transparent">
-        <div className="w-full max-w-2xl bg-black/40 backdrop-blur-md rounded-2xl p-8 shadow-xl flex flex-col items-center border border-atp-blue animate-fade-in" style={{ animationDelay: '600ms' }}>
-          <div className="flex items-center gap-3 mb-4">
-            <FaRegCreditCard className="text-lime-400 text-3xl" />
-            <h3 className="text-2xl font-bold text-white">AI Credits: paga solo por lo que usas</h3>
+
+      {/* Pricing Section */}
+      <section className="py-20 px-4 flex flex-col items-center bg-gradient-to-br from-background via-card to-secondary relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" />
+        <div className="w-full max-w-4xl relative z-10">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl md:text-4xl font-bold mb-4 animate-fade-in">
+              <span className="text-transparent bg-gradient-to-r from-blue-400/80 to-cyan-600/60 bg-clip-text">
+                Predicciones inteligentes
+              </span>
+            </h3>
+            <p className="text-xl text-muted-foreground">Paga solo por lo que uses, sin compromisos</p>
           </div>
-          <div className="flex flex-col gap-2 w-full">
-            <div className="flex items-center gap-2 justify-center">
-              <FaDollarSign className="text-lime-400 text-xl flex-shrink-0" />
-              <p className="text-base text-gray-200 text-center flex-1">Al registrarte recibes <span className="font-bold text-atp-yellow">$1 USD gratis</span> para probar la plataforma.</p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Free Trial */}
+            <div className="bg-gradient-to-br from-slate-700/80 to-slate-800/90 rounded-xl p-6 shadow-lg border border-slate-600/40 hover:border-primary/50 transition-all duration-300 transform hover:scale-105 group">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-slate-600/30 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-500/40 group-hover:bg-primary/20 group-hover:border-primary/60 transition-all duration-300">
+                  <span className="text-green-400 text-xl">🎁</span>
+                </div>
+                <h4 className="text-lg font-semibold text-white mb-2 group-hover:text-primary/90 transition-colors duration-300">Registro gratuito</h4>
+                <p className="text-3xl font-bold text-green-400 mb-1">100</p>
+                <p className="text-sm text-slate-400 mb-4 group-hover:text-slate-300 transition-colors duration-300">crédito de bienvenida</p>
+                <p className="text-slate-300 text-sm group-hover:text-slate-200 transition-colors duration-300">Prueba la plataforma sin costo inicial</p>
+              </div>
             </div>
-            <div className="flex items-center gap-2 justify-center">
-              <FaBolt className="text-lime-400 text-xl flex-shrink-0" />
-              <p className="text-base text-gray-200 text-center flex-1">Cada predicción con IA cuesta <span className="font-bold text-atp-yellow">$0.20 USD</span> y se descuenta automáticamente de tu saldo.</p>
+
+            {/* Per Prediction */}
+            <div className="bg-gradient-to-br from-slate-700/80 to-slate-800/90 rounded-xl p-6 shadow-lg border border-slate-600/40 hover:border-yellow-400 transition-all duration-300 transform hover:scale-105 group">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-slate-600/30 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-500/40 group-hover:bg-primary/20 group-hover:border-primary/60 transition-all duration-300">
+                  <span className="text-blue-400 text-xl">⚡</span>
+                </div>
+                <h4 className="text-lg font-semibold text-white mb-2 group-hover:text-yellow-400 transition-colors duration-300">Por predicción</h4>
+                <p className="text-3xl font-bold text-blue-400 mb-1">0.20</p>
+                <p className="text-sm text-slate-400 mb-4 group-hover:text-slate-300 transition-colors duration-300">análisis con IA</p>
+                <p className="text-slate-300 text-sm group-hover:text-slate-200 transition-colors duration-300">Predicciones precisas usando machine learning</p>
+              </div>
             </div>
-            <div className="flex items-center gap-2 justify-center">
-              <FaRegCreditCard className="text-lime-400 text-xl flex-shrink-0" />
-              <p className="text-base text-gray-200 text-center flex-1">Puedes recargar tu saldo en cualquier momento y seguir disfrutando de análisis avanzados sin límites.</p>
+
+            {/* Flexible */}
+            <div className="bg-gradient-to-br from-slate-700/80 to-slate-800/90 rounded-xl p-6 shadow-lg border border-slate-600/40 hover:border-primary/50 transition-all duration-300 transform hover:scale-105 group">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-slate-600/30 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-500/40 group-hover:bg-primary/20 group-hover:border-primary/60 transition-all duration-300">
+                  <span className="text-purple-400 text-xl">🔄</span>
+                </div>
+                <h4 className="text-lg font-semibold text-white mb-2 group-hover:text-primary/90 transition-colors duration-300">Recarga flexible</h4>
+                <p className="text-3xl font-bold text-yellow-400 mb-1">+$5</p>
+                <p className="text-sm text-slate-400 mb-4 group-hover:text-slate-300 transition-colors duration-300">mínimo de recarga</p>
+                <p className="text-slate-300 text-sm group-hover:text-slate-200 transition-colors duration-300">Agrega créditos cuando los necesites</p>
+              </div>
             </div>
           </div>
-          <a href="/  " className="inline-block bg-atp-blue text-white font-bold px-6 py-3 rounded-full shadow hover:bg-atp-yellow hover:text-black transition-all text-base animate-pop mt-6" style={{ animationDelay: '800ms' }}>
-            Registrarse y obtener $1 gratis
-          </a>
+
+          <div className="text-center mt-12">
+            <a href="/login" className="inline-block bg-gradient-to-r from-primary to-primary/80 hover:from-accent hover:to-accent/90 text-primary-foreground hover:text-accent-foreground font-bold px-8 py-4 rounded-full shadow-2xl hover:shadow-accent/25 transition-all duration-300 text-lg transform hover:scale-105">
+              Recarga ahora
+            </a>
+          </div>
         </div>
       </section>
+        </div>
+
+        {/* Barra Lateral Derecha */}
+        <div className="hidden lg:flex w-64 bg-[#FFFFF0] items-center justify-center">
+          <img 
+            src={grassImage} 
+            alt="Grass court right" 
+            className="w-full h-full object-cover opacity-90"
+            style={{ objectPosition: 'right center' }}
+          />
+        </div>
+      </div>
+
+      <style>
+        {`
+          .animate-fade-in {
+            animation: fadeIn 1s ease forwards;
+            opacity: 0;
+          }
+          @keyframes fadeIn {
+            to { opacity: 1; }
+          }
+          .animate-pop {
+            animation: popIn 0.7s cubic-bezier(.17,.67,.83,.67) forwards;
+            opacity: 0;
+          }
+          @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+          }
+          .animate-float {
+            animation: float 6s ease-in-out infinite alternate;
+          }
+          .animate-float-reverse {
+            animation: floatReverse 6s ease-in-out infinite alternate;
+          }
+          @keyframes float {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-30px) scale(1.1); }
+          }
+          @keyframes floatReverse {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(30px) scale(1.1); }
+          }
+        `}
+      </style>
+
       <Footer />
     </div>
   );

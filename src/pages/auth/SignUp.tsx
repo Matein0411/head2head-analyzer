@@ -68,8 +68,10 @@ export default function SignUp() {
   return (
     <main className="w-full flex justify-center items-center bg-gradient-to-br from-black via-gray-900 to-gray-800 md:p-24 p-10 min-h-screen">
       <section className="flex flex-col gap-3">
-        <div className="flex justify-center">
-          <img className="h-24 w-24 object-contain" src="/tennis-icon.png" alt="Logo" />
+        <div className="flex flex-col items-center mb-8 mt-8">
+          <img src="/tennis-icon.png" alt="Logo TennAI" className="w-24 h-24 object-contain mb-2 drop-shadow-lg" />
+          <div className="text-3xl font-extrabold text-white tracking-tight drop-shadow-lg">TennAI</div>
+          <div className="text-base text-gray-300 mb-2">la IA a tu alcance</div>
         </div>
         <div className="flex flex-col gap-3 bg-white/95 md:p-10 p-5 rounded-2xl md:min-w-[440px] w-full shadow-2xl">
           <h1 className="font-bold text-2xl text-center text-black">Crear una Cuenta</h1>

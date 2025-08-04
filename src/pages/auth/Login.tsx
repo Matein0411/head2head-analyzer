@@ -22,7 +22,7 @@ export default function Login() {
         <div className="flex flex-col items-center mb-8 mt-8">
           <img src="/tennis-icon.png" alt="Logo TennAI" className="w-24 h-24 object-contain mb-2 drop-shadow-lg" />
           <div className="text-3xl font-extrabold text-white tracking-tight drop-shadow-lg">TennAI</div>
-          <div className="text-base text-gray-300 mb-2">la ia a tu alcance</div>
+          <div className="text-base text-gray-300 mb-2">la IA a tu alcance</div>
         </div>
         <div className="bg-white/95 rounded-2xl shadow-2xl px-8 py-10 w-full max-w-md flex flex-col items-center gap-6 border border-gray-200">
           <h1 className="font-bold text-2xl text-center text-gray-900 mb-2">Iniciar sesión</h1>
@@ -75,8 +75,8 @@ function SignInWithGoogleComponent() {
     <button
       disabled={isLoading}
       onClick={handleLogin}
-      className={`bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 text-gray-900 rounded-full px-6 py-3 font-bold shadow-md text-lg flex items-center gap-3 transition-all duration-200 backdrop-blur-sm border border-yellow-300/70 ${
-        isLoading ? "opacity-50 cursor-not-allowed" : "hover:from-yellow-400 hover:to-yellow-200"
+      className={`bg-gradient-to-r from-slate-700 via-slate-600 to-slate-500 text-white rounded-full px-6 py-3 font-bold shadow-md text-lg flex items-center gap-3 transition-all duration-200 backdrop-blur-sm border border-slate-500/70 ${
+        isLoading ? "opacity-50 cursor-not-allowed" : "hover:from-slate-800 hover:to-slate-600"
       }`}
     >
       {isLoading ? "Cargando..." : (

@@ -8,7 +8,7 @@ export default function Header() {
   const { user, isLoading } = useAuth();
 
   return (
-    <header className="bg-black/60 backdrop-blur-md border-b border-gray-700 sticky top-0 z-30 transition-all duration-300 shadow-sm text-white">
+    <header className="bg-black/60 backdrop-blur-md border-b border-gray-700 sticky top-0 z-[100] transition-all duration-300 shadow-sm text-white">
       <div className="max-w-7xl mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
