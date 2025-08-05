@@ -113,3 +113,32 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Sonner toast customizations for mobile */
+@layer components {
+  [data-sonner-toaster] {
+    z-index: 9999 !important;
+  }
+  
+  /* Ensure toasts are above everything on mobile */
+  @media (max-width: 767px) {
+    [data-sonner-toaster] {
+      position: fixed !important;
+      top: 0 !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      z-index: 9999 !important;
+      width: 100% !important;
+      max-width: calc(100vw - 2rem) !important;
+    }
+    
+    [data-sonner-toast] {
+      margin-top: 6rem !important;
+      max-width: calc(100vw - 3rem) !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+    }
+  }
+}

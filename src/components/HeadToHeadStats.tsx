@@ -1,4 +1,3 @@
-import { ToastDescription, ToastTitle } from "@/components/ui/toast";
 import { useUserProfile } from "@/context/UserProfileContext";
 import { toast } from "@/hooks/use-toast";
 import { predictApiService } from "@/services/predictApi.service";
@@ -6,6 +5,7 @@ import { tennisPlayerService } from "@/services/tennisPlayer.service";
 import confetti from "canvas-confetti";
 import { AlertTriangle } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { toast as sonnerToast } from "sonner";
 
 interface HeadToHeadStatsProps {
   player1Name?: string;
@@ -59,60 +59,51 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
 
   const handlePredict = async () => {
     if (!player1Name || !player2Name) {
-      toast({
-        description: (
-          <div className="flex items-center gap-3">
-            <AlertTriangle className="w-6 h-6 text-yellow-500 shrink-0" />
-            <div>
-              <ToastTitle className="flex items-center gap-2 text-yellow-700 text-base font-bold">
-                Completa ambos jugadores
-              </ToastTitle>
-              <ToastDescription>
-                Debes buscar ambos jugadores antes de predecir.
-              </ToastDescription>
+      sonnerToast.error(
+        <div className="flex items-center gap-3">
+          <AlertTriangle className="w-6 h-6 text-yellow-500 shrink-0" />
+          <div>
+            <div className="flex items-center gap-2 text-yellow-700 text-base font-bold">
+              Completa ambos jugadores
+            </div>
+            <div className="text-muted-foreground">
+              Debes buscar ambos jugadores antes de predecir.
             </div>
           </div>
-        ),
-        variant: "default",
-      });
+        </div>
+      );
       return;
     }
     if (!surface) {
-      toast({
-        description: (
-          <div className="flex items-center gap-3">
-            <AlertTriangle className="w-6 h-6 text-yellow-500 shrink-0" />
-            <div>
-              <ToastTitle className="flex items-center gap-2 text-yellow-700 text-base font-bold">
-                Selecciona una superficie
-              </ToastTitle>
-              <ToastDescription>
-                Debes elegir la superficie del partido.
-              </ToastDescription>
+      sonnerToast.error(
+        <div className="flex items-center gap-3">
+          <AlertTriangle className="w-6 h-6 text-yellow-500 shrink-0" />
+          <div>
+            <div className="flex items-center gap-2 text-yellow-700 text-base font-bold">
+              Selecciona una superficie
+            </div>
+            <div className="text-muted-foreground">
+              Debes elegir la superficie del partido.
             </div>
           </div>
-        ),
-        variant: "default",
-      });
+        </div>
+      );
       return;
     }
     if (!tournamentType) {
-      toast({
-        description: (
-          <div className="flex items-center gap-3">
-            <AlertTriangle className="w-6 h-6 text-yellow-500 shrink-0" />
-            <div>
-              <ToastTitle className="flex items-center gap-2 text-yellow-700 text-base font-bold">
-                Selecciona un tipo de torneo
-              </ToastTitle>
-              <ToastDescription>
-                Debes elegir el tipo de torneo.
-              </ToastDescription>
+      sonnerToast.error(
+        <div className="flex items-center gap-3">
+          <AlertTriangle className="w-6 h-6 text-yellow-500 shrink-0" />
+          <div>
+            <div className="flex items-center gap-2 text-yellow-700 text-base font-bold">
+              Selecciona un tipo de torneo
+            </div>
+            <div className="text-muted-foreground">
+              Debes elegir el tipo de torneo.
             </div>
           </div>
-        ),
-        variant: "default",
-      });
+        </div>
+      );
       return;
     }
     setLoading(true);
@@ -151,22 +142,19 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
         }
       }
     } catch (e) {
-      toast({
-        description: (
-          <div className="flex items-center gap-3">
-            <AlertTriangle className="w-6 h-6 text-black shrink-0" />
-            <div>
-              <ToastTitle className="flex items-center gap-2 text-white text-base font-bold">
-                Error
-              </ToastTitle>
-              <ToastDescription>
-                No se pudo obtener la predicción. Intenta de nuevo.
-              </ToastDescription>
+      sonnerToast.error(
+        <div className="flex items-center gap-3">
+          <AlertTriangle className="w-6 h-6 text-red-500 shrink-0" />
+          <div>
+            <div className="flex items-center gap-2 text-red-700 text-base font-bold">
+              Error
+            </div>
+            <div className="text-muted-foreground">
+              No se pudo obtener la predicción. Intenta de nuevo.
             </div>
           </div>
-        ),
-        variant: "destructive",
-      });
+        </div>
+      );
     } finally {
       setLoading(false);
     }
@@ -189,26 +177,28 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
   }, [showPrediction, probabilities]);
 
   return (
-    <div className="bg-card rounded-lg p-6 border border-border flex flex-col items-center">
-      <div className="flex items-center justify-center mb-8 gap-12">
-        <span className="text-6xl font-bold text-white drop-shadow-lg">
+    <div className="bg-card rounded-lg p-4 md:p-6 border border-border flex flex-col items-center w-full">
+      {/* H2H Display - Responsive */}
+      <div className="flex items-center justify-center mb-6 md:mb-8 gap-4 md:gap-8 lg:gap-12 w-full">
+        <span className="text-3xl md:text-5xl lg:text-6xl font-bold text-white drop-shadow-lg">
           {h2hLoading ? '-' : leftWins}
         </span>
-        <div className="w-60 h-60 rounded-full border-8 border-atp-blue flex items-center justify-center">
-          <span className="text-5xl font-bold text-foreground">H2H</span>
+        <div className="w-40 h-40 md:w-56 md:h-56 lg:w-72 lg:h-72 rounded-full border-4 md:border-6 lg:border-8 border-atp-blue flex items-center justify-center flex-shrink-0">
+          <span className="text-2xl md:text-4xl lg:text-5xl font-bold text-foreground">H2H</span>
         </div>
-        <span className="text-6xl font-bold text-white drop-shadow-lg">
+        <span className="text-3xl md:text-5xl lg:text-6xl font-bold text-white drop-shadow-lg">
           {h2hLoading ? '-' : rightWins}
         </span>
       </div>
 
-      <div className="w-full flex justify-center gap-8 mb-8">
-        <div className="flex flex-col items-center">
-          <label htmlFor="surface" className="mb-2 text-white font-semibold">Superficie</label>
-          <div className="relative w-full min-w-[180px]">
+      {/* Filters - Stack on mobile, side by side on desktop */}
+      <div className="w-full flex flex-col md:flex-row justify-center gap-4 md:gap-8 mb-6 md:mb-8">
+        <div className="flex flex-col items-center w-full md:w-auto">
+          <label htmlFor="surface" className="mb-2 text-white font-semibold text-sm md:text-base">Superficie</label>
+          <div className="relative w-full md:min-w-[180px] max-w-xs">
             <select
               id="surface"
-              className="bg-black/20 border-2 border-white text-white rounded-xl px-6 py-3 w-full shadow-md backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-atp-blue appearance-none pr-10"
+              className="bg-black/20 border-2 border-white text-white rounded-xl px-4 md:px-6 py-2 md:py-3 w-full shadow-md backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-atp-blue appearance-none pr-10 text-sm md:text-base"
               value={surface}
               onChange={e => setSurface(e.target.value)}
               style={{ WebkitTextFillColor: 'white', colorScheme: 'dark' }}
@@ -218,17 +208,17 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
               <option className="bg-black/80 text-white" value="Clay">Arcilla</option>
               <option className="bg-black/80 text-white" value="Grass">Césped</option>
             </select>
-            <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </div>
         </div>
-        <div className="flex flex-col items-center">
-          <label htmlFor="tournament" className="mb-2 text-white font-semibold">Tipo de torneo</label>
-          <div className="relative w-full min-w-[180px]">
+        <div className="flex flex-col items-center w-full md:w-auto">
+          <label htmlFor="tournament" className="mb-2 text-white font-semibold text-sm md:text-base">Tipo de torneo</label>
+          <div className="relative w-full md:min-w-[180px] max-w-xs">
             <select
               id="tournament"
-              className="bg-black/20 border-2 border-white text-white rounded-xl px-6 py-3 w-full shadow-md backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-atp-blue appearance-none pr-10"
+              className="bg-black/20 border-2 border-white text-white rounded-xl px-4 md:px-6 py-2 md:py-3 w-full shadow-md backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-atp-blue appearance-none pr-10 text-sm md:text-base"
               value={tournamentType}
               onChange={e => setTournamentType(e.target.value)}
               style={{ WebkitTextFillColor: 'white', colorScheme: 'dark' }}
@@ -241,41 +231,43 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
               <option className="bg-black/80 text-white" value="D">Davis Cup</option>
               <option className="bg-black/80 text-white" value="O">Olímpicos</option>
             </select>
-            <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </div>
         </div>
       </div>
 
-      <div className="w-full flex justify-center mb-8">
+      {/* Predict Button */}
+      <div className="w-full flex justify-center mb-6 md:mb-8">
         <button
-          className="bg-black/0 border-2 border-white text-white px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 ease-in-out hover:bg-black/0 hover:scale-105 hover:shadow-lg disabled:opacity-60"
+          className="bg-black/0 border-2 border-white text-white px-6 md:px-8 py-2 md:py-3 rounded-full font-semibold text-base md:text-lg transition-all duration-300 ease-in-out hover:bg-black/0 hover:scale-105 hover:shadow-lg disabled:opacity-60 w-full max-w-xs md:w-auto"
           style={{ backdropFilter: 'blur(2px)' }}
           onClick={handlePredict}
           disabled={loading}
         >
           {loading ? (
-            <span className="flex items-center gap-2 animate-pulse">
-              <svg className="w-5 h-5 text-atp-blue animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
-              Prediciendo con IA...
+            <span className="flex items-center justify-center gap-2 animate-pulse">
+              <svg className="w-4 h-4 md:w-5 md:h-5 text-atp-blue animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
+              <span className="text-sm md:text-base">Prediciendo con IA...</span>
             </span>
           ) : "Predecir"}
         </button>
       </div>
 
+      {/* Prediction Results */}
       {showPrediction && probabilities && (
-        <div className="w-full max-w-md flex flex-col items-center">
-          <span className="mb-2 text-lg font-semibold text-foreground">Probabilidad de victoria:</span>
-          <div className="w-full bg-muted rounded-full h-8 flex overflow-hidden border border-border">
+        <div className="w-full max-w-md flex flex-col items-center px-4 md:px-0">
+          <span className="mb-3 text-base md:text-lg font-semibold text-foreground text-center">Probabilidad de victoria:</span>
+          <div className="w-full bg-muted rounded-full h-8 md:h-10 flex overflow-hidden border border-border">
             <div
-              className="h-full flex items-center justify-center bg-atp-blue text-white text-sm font-bold transition-all duration-500"
+              className="h-full flex items-center justify-center bg-atp-blue text-white text-xs md:text-sm font-bold transition-all duration-500"
               style={{ width: `${Math.round(probabilities.p1 * 100)}%` }}
             >
               {Math.round(probabilities.p1 * 100)}%
             </div>
             <div
-              className="h-full flex items-center justify-center bg-atp-yellow text-black text-sm font-bold transition-all duration-500"
+              className="h-full flex items-center justify-center bg-atp-yellow text-black text-xs md:text-sm font-bold transition-all duration-500"
               style={{ width: `${Math.round(probabilities.p2 * 100)}%` }}
             >
               {Math.round(probabilities.p2 * 100)}%

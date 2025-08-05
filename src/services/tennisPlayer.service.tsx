@@ -80,6 +80,25 @@ const getPlayerByName = async (playerName: string): Promise<Player> => {
   }
 };
 
+/**
+ * Obtiene estadísticas detalladas de un jugador por su nombre.
+ * @param playerName - El nombre completo del jugador a buscar.
+ * @returns Una promesa que resuelve con las estadísticas del jugador.
+ */
+const getPlayerStats = async (playerName: string): Promise<any> => {
+  try {
+    const encodedPlayerName = encodeURIComponent(playerName);
+    
+    const response = await axios.get(`${API_URL}/players/player/${encodedPlayerName}`);    
+    return response.data;
+
+  } catch (error) {
+    console.error(`Error al obtener estadísticas del jugador "${playerName}":`, error);
+    
+    throw error;
+  }
+};
+
 
 /**
  * Obtiene el H2H simple entre dos jugadores.
@@ -162,6 +181,7 @@ const updateCredit = async (data: CreditUpdate): Promise<CreditUpdate> => {
 export const tennisPlayerService = {
   // Funciones públicas
   getPlayerByName,
+  getPlayerStats,
   getSimpleH2HStats,
   getComparisonBasic,
   getNextMatches,

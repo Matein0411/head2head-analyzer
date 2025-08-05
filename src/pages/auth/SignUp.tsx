@@ -66,27 +66,27 @@ export default function SignUp() {
   };
 
   return (
-    <main className="w-full flex justify-center items-center bg-gradient-to-br from-black via-gray-900 to-gray-800 md:p-24 p-10 min-h-screen">
-      <section className="flex flex-col gap-3">
-        <div className="flex flex-col items-center mb-8 mt-8">
+    <main className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 flex flex-col justify-center items-center px-4 py-6">
+      <section className="flex flex-col items-center w-full">
+        <div className="flex flex-col items-center mb-6 sm:mb-8 mt-4 sm:mt-8">
           <img src="/tennis-icon.png" alt="Logo TennAI" className="w-24 h-24 object-contain mb-2 drop-shadow-lg" />
           <div className="text-3xl font-extrabold text-white tracking-tight drop-shadow-lg">TennAI</div>
-          <div className="text-base text-gray-300 mb-2">la IA a tu alcance</div>
+          <div className="text-sm sm:text-base text-gray-300 mb-2">la IA a tu alcance</div>
         </div>
-        <div className="flex flex-col gap-3 bg-white/95 md:p-10 p-5 rounded-2xl md:min-w-[440px] w-full shadow-2xl">
-          <h1 className="font-bold text-2xl text-center text-black">Crear una Cuenta</h1>
+        <div className="bg-white/95 rounded-2xl shadow-2xl px-4 sm:px-8 py-6 sm:py-10 w-full max-w-md flex flex-col items-center gap-4 sm:gap-6 border border-gray-200">
+          <h1 className="font-bold text-xl sm:text-2xl text-center text-gray-900 mb-2">Crear una Cuenta</h1>
           <form
             onSubmit={(e) => {
               e.preventDefault();
               handleSignUp();
             }}
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-3 w-full"
           >
             <input
               placeholder="Tu Nombre"
               type="text"
               required
-              className="px-3 py-2 rounded-xl border focus:outline-none w-full text-black placeholder-gray-500"
+              className="px-3 py-3 sm:py-2 rounded-xl border border-gray-300 focus:outline-none w-full text-base text-gray-900 bg-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               value={data.name}
               onChange={(e) => handleData("name", e.target.value)}
             />
@@ -94,7 +94,7 @@ export default function SignUp() {
               placeholder="Tu Email"
               type="email"
               required
-              className="px-3 py-2 rounded-xl border focus:outline-none w-full text-black placeholder-gray-500"
+              className="px-3 py-3 sm:py-2 rounded-xl border border-gray-300 focus:outline-none w-full text-base text-gray-900 bg-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               value={data.email}
               onChange={(e) => handleData("email", e.target.value)}
             />
@@ -103,14 +103,14 @@ export default function SignUp() {
               type="password"
               required
               minLength={6}
-              className="px-3 py-2 rounded-xl border focus:outline-none w-full text-black placeholder-gray-500"
+              className="px-3 py-3 sm:py-2 rounded-xl border border-gray-300 focus:outline-none w-full text-base text-gray-900 bg-white placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               value={data.password}
               onChange={(e) => handleData("password", e.target.value)}
             />
             <button 
               type="submit" 
               disabled={isLoading}
-              className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white hover:from-blue-700 hover:to-blue-500 rounded-lg py-2 font-semibold shadow transition-all duration-200 disabled:opacity-50"
+              className="bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400 text-white hover:from-blue-700 hover:to-blue-500 rounded-lg py-3 sm:py-2 font-semibold shadow transition-all duration-200 text-base disabled:opacity-50"
             >
               {isLoading ? "Creando cuenta..." : "Registrarse"}
             </button>

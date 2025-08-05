@@ -131,8 +131,8 @@ const Home = () => {
           </div>
 
           <div className="text-center mt-12">
-            <a href="/login" className="inline-block bg-gradient-to-r from-primary to-primary/80 hover:from-accent hover:to-accent/90 text-primary-foreground hover:text-accent-foreground font-bold px-8 py-4 rounded-full shadow-2xl hover:shadow-accent/25 transition-all duration-300 text-lg transform hover:scale-105">
-              Recarga ahora
+            <a href="/Plans" className="inline-block bg-gradient-to-r from-primary to-primary/80 hover:from-accent hover:to-accent/90 text-primary-foreground hover:text-accent-foreground font-bold px-8 py-4 rounded-full shadow-2xl hover:shadow-accent/25 transition-all duration-300 text-lg transform hover:scale-105">
+              Ver Planes
             </a>
           </div>
         </div>

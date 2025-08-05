@@ -5,15 +5,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
+      setUser(user);
+      setIsLoading(false);
     });
     return () => unsub();
   }, []);
@@ -22,7 +20,7 @@ export default function AuthContextProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
-        isLoading: user === undefined,
+        isLoading,
       }}
     >
       {children}
