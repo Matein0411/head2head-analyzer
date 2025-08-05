@@ -11,6 +11,7 @@ import SignUp from "./pages/auth/SignUp";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import Plans from "./pages/Plans";
+import Players from "./pages/Players";
 import Predict from "./pages/Predict";
 
 const queryClient = new QueryClient();
@@ -48,6 +49,7 @@ const AppRoutes = () => (
       <Route path="/SignUp" element={<SignUp />} />
       <Route path="/" element={<Home />} />
       <Route path="/Plans" element={<Plans />} />
+      <Route path="/jugadores" element={<Players />} />
       <Route
         path="/Predict"
         element={

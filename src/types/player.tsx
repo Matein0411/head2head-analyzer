@@ -80,3 +80,31 @@ export interface NextMatch {
   tournamentType: string;
   surface: string;
 }
+
+export interface PlayerStats {
+  name: string;
+  country: string;
+  date_of_birth: string;
+  height_cm: number;
+  hand: number;
+  actual_rank: number;
+  min_rank: number;
+  grass_winrt: number;
+  hard_winrt: number;
+  clay_winrt: number;
+  g_winrt: number;
+  a_winrt: number;
+  d_winrt: number;
+  m_winrt: number;
+  f_winrt: number;
+  o_winrt: number;
+  pct_1stin: number;
+  pct_1stwon: number;
+  pct_2ndwon: number;
+  pct_svptswon: number;
+  pct_bpconv: number;
+  pct_bpsaved: number;
+  pct_1stretptswon: number;
+  pct_2ndretptswon: number;
+  recperf: number;
+}

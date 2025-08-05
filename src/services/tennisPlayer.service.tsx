@@ -1,6 +1,6 @@
 import { auth } from "@/lib/firebase";
 import axios from 'axios';
-import type { NextMatch, Player, SimpleH2HStats } from "../types/player";
+import type { NextMatch, Player, PlayerStats, SimpleH2HStats } from "../types/player";
 import type { CreditUpdate, UserProfile } from "../types/user";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -85,11 +85,11 @@ const getPlayerByName = async (playerName: string): Promise<Player> => {
  * @param playerName - El nombre completo del jugador a buscar.
  * @returns Una promesa que resuelve con las estadísticas del jugador.
  */
-const getPlayerStats = async (playerName: string): Promise<any> => {
+const getPlayerStats = async (playerName: string): Promise<PlayerStats> => {
   try {
     const encodedPlayerName = encodeURIComponent(playerName);
     
-    const response = await axios.get(`${API_URL}/players/player/${encodedPlayerName}`);    
+    const response = await axios.get<PlayerStats>(`${API_URL}/players/player/${encodedPlayerName}`);    
     return response.data;
 
   } catch (error) {
