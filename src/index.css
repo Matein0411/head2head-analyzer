@@ -117,7 +117,7 @@ All colors MUST be HSL.
 /* Sonner toast customizations for mobile */
 @layer components {
   [data-sonner-toaster] {
-    z-index: 9999 !important;
+    z-index: 99999 !important;
   }
   
   /* Ensure toasts are above everything on mobile */
@@ -127,7 +127,7 @@ All colors MUST be HSL.
       top: 0 !important;
       left: 50% !important;
       transform: translateX(-50%) !important;
-      z-index: 9999 !important;
+      z-index: 99999 !important;
       width: 100% !important;
       max-width: calc(100vw - 2rem) !important;
     }

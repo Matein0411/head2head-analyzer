@@ -69,7 +69,14 @@ const App = () => (
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />
-          <Sonner />
+          <Sonner 
+            position="top-center"
+            toastOptions={{
+              style: {
+                zIndex: 99999,
+              },
+            }}
+          />
           <AppRoutes />
         </TooltipProvider>
       </QueryClientProvider>

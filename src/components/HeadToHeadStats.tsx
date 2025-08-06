@@ -58,6 +58,24 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
   }, [player1Name, player2Name]);
 
   const handlePredict = async () => {
+    // Verificar si el usuario tiene créditos
+    if (profile?.credits === 0) {
+      sonnerToast.error(
+        <div className="flex items-center gap-3">
+          <AlertTriangle className="w-6 h-6 text-red-500 shrink-0" />
+          <div>
+            <div className="flex items-center gap-2 text-red-700 text-base font-bold">
+              Sin créditos disponibles
+            </div>
+            <div className="text-muted-foreground">
+              Necesitas créditos para realizar predicciones. Consulta nuestros planes.
+            </div>
+          </div>
+        </div>
+      );
+      return;
+    }
+
     if (!player1Name || !player2Name) {
       sonnerToast.error(
         <div className="flex items-center gap-3">
@@ -241,15 +259,24 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
       {/* Predict Button */}
       <div className="w-full flex justify-center mb-6 md:mb-8">
         <button
-          className="bg-black/0 border-2 border-white text-white px-6 md:px-8 py-2 md:py-3 rounded-full font-semibold text-base md:text-lg transition-all duration-300 ease-in-out hover:bg-black/0 hover:scale-105 hover:shadow-lg disabled:opacity-60 w-full max-w-xs md:w-auto"
+          className={`border-2 px-6 md:px-8 py-2 md:py-3 rounded-full font-semibold text-base md:text-lg transition-all duration-300 ease-in-out w-full max-w-xs md:w-auto ${
+            profile?.credits === 0
+              ? 'bg-red-500/20 border-red-500 text-red-400 cursor-not-allowed'
+              : 'bg-black/0 border-white text-white hover:bg-black/0 hover:scale-105 hover:shadow-lg'
+          } disabled:opacity-60`}
           style={{ backdropFilter: 'blur(2px)' }}
           onClick={handlePredict}
-          disabled={loading}
+          disabled={loading || profile?.credits === 0}
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2 animate-pulse">
               <svg className="w-4 h-4 md:w-5 md:h-5 text-atp-blue animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path></svg>
               <span className="text-sm md:text-base">Prediciendo con IA...</span>
+            </span>
+          ) : profile?.credits === 0 ? (
+            <span className="flex items-center justify-center gap-2">
+              <AlertTriangle className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-sm md:text-base">Sin créditos</span>
             </span>
           ) : "Predecir"}
         </button>

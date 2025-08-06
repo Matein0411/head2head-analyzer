@@ -52,7 +52,11 @@ export default function UserCredits() {
       />
       <span 
         className={`font-medium transition-all duration-300 ${
-          showAnimation ? 'text-red-400 scale-110' : 'text-white'
+          showAnimation 
+            ? 'text-red-400 scale-110' 
+            : profile.credits === 0 
+              ? 'text-red-400' 
+              : 'text-white'
         }`}
       >
         {profile.credits}
