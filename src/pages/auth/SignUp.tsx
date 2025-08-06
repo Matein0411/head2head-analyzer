@@ -54,8 +54,6 @@ export default function SignUp() {
       
       const userProfile = await tennisPlayerService.syncUser();
       setProfileManually(userProfile);
-
-      toast.success("¡Cuenta creada con éxito!");
       
       // Marcar que se debe mostrar la notificación de créditos en el Home
       localStorage.setItem('showCreditNotification', 'true');
