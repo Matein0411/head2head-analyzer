@@ -128,7 +128,7 @@ const Players = () => {
             <div className="w-full h-full bg-repeat" style={{ backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(66, 133, 244, 0.1) 10px, rgba(66, 133, 244, 0.1) 20px)` }}></div>
           </div>
           <div className="relative z-10 flex flex-col items-center justify-center h-full">
-            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-b from-gray-200 to-white bg-clip-text text-transparent text-center">
+            <h1 className="text-xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-b from-gray-200 to-white bg-clip-text text-transparent text-center">
               ESTADÍSTICAS DE JUGADORES
             </h1>
             <p className="text-sm md:text-base text-gray-400 mt-2 text-center max-w-md">

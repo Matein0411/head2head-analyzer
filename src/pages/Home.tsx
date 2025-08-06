@@ -1,9 +1,42 @@
 import grassImage from "@/assets/grass.png";
+import CreditNotification from "@/components/CreditNotification";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { useAuth } from "@/context/AuthContext";
+import { useUserProfile } from "@/context/UserProfileContext";
+import { useEffect, useRef, useState } from "react";
 import { FaBrain, FaChartLine, FaUsers } from "react-icons/fa";
 
 const Home = () => {
+  const { user } = useAuth();
+  const { profile } = useUserProfile();
+  const [showCreditNotification, setShowCreditNotification] = useState(false);
+  const [notificationCredits, setNotificationCredits] = useState(100);
+  const hasShownNotification = useRef(false);
+
+  // Verificar si se debe mostrar la notificación de créditos
+  useEffect(() => {
+    const shouldShowNotification = localStorage.getItem('showCreditNotification');
+    const newUserCredits = localStorage.getItem('newUserCredits');
+    
+    if ((shouldShowNotification === 'true' || newUserCredits) && 
+        user && !hasShownNotification.current) {
+      
+      const creditsToShow = newUserCredits ? parseInt(newUserCredits) : 100;
+      setNotificationCredits(creditsToShow);
+      
+      setShowCreditNotification(true);
+      hasShownNotification.current = true;
+      
+      localStorage.removeItem('showCreditNotification');
+      localStorage.removeItem('newUserCredits');
+    }
+  }, [user, profile]);
+
+  const handleCreditNotificationClose = () => {
+    setShowCreditNotification(false);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-card to-secondary">
       <Header />
@@ -55,7 +88,7 @@ const Home = () => {
               <FaUsers className="w-12 h-12 text-blue-400" />
             </div>
             <h3 className="text-lg font-semibold text-white mb-3 text-center group-hover:text-primary/90 transition-colors duration-300">Comparación instantánea</h3>
-            <p className="text-slate-300 text-center leading-relaxed text-sm transition-colors duration-300">Compara cualquier par de jugadores ATP/WTA y obtén estadísticas clave, historial y predicciones en segundos.</p>
+            <p className="text-slate-300 text-center leading-relaxed text-sm transition-colors duration-300">Compara cualquier par de jugadores ATP y obtén estadísticas clave, historial y predicciones en segundos.</p>
           </div>
           
           <div className="bg-gradient-to-br from-slate-700/80 to-slate-800/90 rounded-xl p-6 shadow-lg border border-slate-600/40 hover:border-yellow-400 flex flex-col items-center animate-fade-in transition-all duration-300 transform hover:scale-105 group" style={{ animationDelay: '200ms' }}>
@@ -70,8 +103,8 @@ const Home = () => {
             <div className="mb-5 p-3 rounded-full bg-slate-600/30 border border-slate-500/40 group-hover:bg-primary/20 group-hover:border-primary/60 transition-all duration-300">
               <FaChartLine className="w-12 h-12 text-green-400" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-3 text-center group-hover:text-primary/90 transition-colors duration-300">Estadísticas visuales</h3>
-            <p className="text-slate-300 text-center leading-relaxed text-sm transition-colors duration-300">Visualiza porcentajes, gráficos y tendencias para tomar decisiones informadas y mejorar tu análisis.</p>
+            <h3 className="text-lg font-semibold text-white mb-3 text-center group-hover:text-primary/90 transition-colors duration-300">Datos históricos</h3>
+            <p className="text-slate-300 text-center leading-relaxed text-sm transition-colors duration-300">Accede al rendimiento histórico de cada jugador con estadísticas detalladas de torneos y superficies.</p>
           </div>
         </div>
       </section>
@@ -186,6 +219,13 @@ const Home = () => {
       </style>
 
       <Footer />
+
+      {/* Notificación de créditos */}
+      <CreditNotification
+        isVisible={showCreditNotification}
+        onClose={handleCreditNotificationClose}
+        credits={notificationCredits}
+      />
     </div>
   );
 };

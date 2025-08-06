@@ -1,4 +1,5 @@
 import { useAuth } from "@/context/AuthContext";
+import { useUserProfile } from "@/context/UserProfileContext";
 import { auth } from "@/lib/firebase";
 import { tennisPlayerService } from "@/services/tennisPlayer.service";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -8,6 +9,7 @@ import { toast } from "sonner";
 
 export default function SignUp() {
   const { user } = useAuth();
+  const { setProfileManually } = useUserProfile();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
@@ -47,19 +49,25 @@ export default function SignUp() {
     try {
       const credential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       await updateProfile(credential.user, { displayName: data.name });
-      // Recarga el usuario para asegurar que displayName esté actualizado
       await credential.user.reload();
-      // Fuerza la regeneración del token para que incluya el displayName actualizado
-      const idToken = await credential.user.getIdToken(true); // Aquí obtienes el token
-
-      await tennisPlayerService.syncUser();
+      const idToken = await credential.user.getIdToken(true);
+      
+      const userProfile = await tennisPlayerService.syncUser();
+      setProfileManually(userProfile);
 
       toast.success("¡Cuenta creada con éxito!");
       
-      // 4. Redirige al usuario a la página principal
+      // Marcar que se debe mostrar la notificación de créditos en el Home
+      localStorage.setItem('showCreditNotification', 'true');
+      localStorage.setItem('newUserCredits', userProfile.credits.toString());
+      
+      // Pequeño delay para asegurar que el contexto se propague
+      await new Promise(resolve => setTimeout(resolve, 200));
+      
       navigate("/");
 
     } catch (error: any) {
+      console.error("Error en el registro:", error);
       toast.error(error?.message || "Ocurrió un error al crear la cuenta.");
     }
     setIsLoading(false);

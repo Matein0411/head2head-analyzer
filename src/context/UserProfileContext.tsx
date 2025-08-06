@@ -9,6 +9,7 @@ interface UserProfileContextType {
   error: string | null;
   updateCredits: (newCredits: number) => void;
   refreshProfile: () => Promise<void>;
+  setProfileManually: (profile: UserProfile) => void;
 }
 
 const UserProfileContext = createContext<UserProfileContextType | undefined>(undefined);
@@ -26,6 +27,7 @@ export const UserProfileProvider = ({ children }: { children: React.ReactNode })
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [manuallySet, setManuallySet] = useState(false); // Nueva bandera
 
   const fetchProfile = async () => {
     if (!user || authLoading) {
@@ -49,8 +51,21 @@ export const UserProfileProvider = ({ children }: { children: React.ReactNode })
   };
 
   useEffect(() => {
-    fetchProfile();
-  }, [user, authLoading]);
+    // Reset when user changes
+    if (!user && !authLoading) {
+      setProfile(null);
+      setError(null);
+      setIsLoading(false);
+      setManuallySet(false);
+      return;
+    }
+    
+    // Solo hacer fetch automático si el usuario existe, no está cargando, 
+    // Y no hemos establecido el perfil manualmente
+    if (user && !authLoading && !manuallySet) {
+      fetchProfile();
+    }
+  }, [user, authLoading, manuallySet]);
 
   const updateCredits = (newCredits: number) => {
     if (profile) {
@@ -62,7 +77,15 @@ export const UserProfileProvider = ({ children }: { children: React.ReactNode })
     }
   };
 
+  const setProfileManually = (newProfile: UserProfile) => {
+    setProfile(newProfile);
+    setManuallySet(true);
+    setError(null);
+    setIsLoading(false);
+  };
+
   const refreshProfile = async () => {
+    setManuallySet(false);
     await fetchProfile();
   };
 
@@ -72,6 +95,7 @@ export const UserProfileProvider = ({ children }: { children: React.ReactNode })
     error,
     updateCredits,
     refreshProfile,
+    setProfileManually,
   };
 
   return (

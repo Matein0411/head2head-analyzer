@@ -10,28 +10,28 @@ import NextMatches from "@/components/nextMatches";
 import PlayerCard from "@/components/PlayerCard";
 
 
-// Datos iniciales de los jugadores (usa tipado estricto)
+// Datos iniciales de los jugadores (se cargarán desde la API)
 const initialPlayer1: PlayerData = {
-  name: "Giovanni Mpetshi",
-  country: "FRA",
-  countryCode: "fr",
-  rank: 43,
-  minRank: 43,
-  age: 22,
-  height: "6'8\" (203cm)",
-  hand: "Right-Handed",
+  name: "Carlos Alcaraz",
+  country: "ESP",
+  countryCode: "es",
+  rank: 0,
+  minRank: 0,
+  age: 0,
+  height: "",
+  hand: "",
   image: "/src/assets/player1.jpg",
 };
 
 const initialPlayer2: PlayerData = {
-  name: "Holger Rune",
-  country: "DEN",
-  countryCode: "dk",
-  rank: 9,
-  minRank: 9,
-  age: 22,
-  height: "6'2\" (188cm)",
-  hand: "Right-Handed",
+  name: "Rafael Nadal",
+  country: "ESP",
+  countryCode: "es",
+  rank: 0,
+  minRank: 0,
+  age: 0,
+  height: "",
+  hand: "",
   image: "/src/assets/player2.jpg",
 };
 
@@ -75,7 +75,48 @@ const Predict = () => {
     }
   };
 
+  // Cargar datos iniciales de los jugadores desde la API
+  useEffect(() => {
+    const loadInitialPlayers = async () => {
+      try {
+        // Cargar Carlos Alcaraz
+        const alcarazData = await tennisPlayerService.getPlayerByName("Carlos Alcaraz");
+        setPlayer1Data({
+          name: alcarazData.name,
+          country: alcarazData.country,
+          countryCode: countryCodeMap[alcarazData.country] || 'es',
+          rank: alcarazData.actual_rank,
+          minRank: alcarazData.min_rank,
+          age: alcarazData.age,
+          hand: alcarazData.hand,
+          height: alcarazData.height,
+          image: alcarazData.image_url || "/src/assets/player1.jpg",
+        });
+      } catch (error) {
+        console.log("No se pudo cargar los datos de Carlos Alcaraz");
+      }
 
+      try {
+        // Cargar Rafael Nadal
+        const nadalData = await tennisPlayerService.getPlayerByName("Rafael Nadal");
+        setPlayer2Data({
+          name: nadalData.name,
+          country: nadalData.country,
+          countryCode: countryCodeMap[nadalData.country] || 'es',
+          rank: nadalData.actual_rank,
+          minRank: nadalData.min_rank,
+          age: nadalData.age,
+          hand: nadalData.hand,
+          height: nadalData.height,
+          image: nadalData.image_url || "/src/assets/player2.jpg",
+        });
+      } catch (error) {
+        console.log("No se pudo cargar los datos de Rafael Nadal");
+      }
+    };
+
+    loadInitialPlayers();
+  }, []);
 
   useEffect(() => {
     setIsLoadingMatches(true);
@@ -123,7 +164,7 @@ const Predict = () => {
             <div className="w-full h-full bg-repeat" style={{ backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(66, 133, 244, 0.1) 10px, rgba(66, 133, 244, 0.1) 20px)` }}></div>
           </div>
           <div className="relative z-10 flex flex-col items-center justify-center h-full">
-            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-b from-gray-200 to-white bg-clip-text text-transparent text-center">
+            <h1 className="text-xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-b from-gray-200 to-white bg-clip-text text-transparent text-center">
               HEAD2HEAD
             </h1>
             <p className="text-sm md:text-base text-gray-400 mt-2 text-center max-w-md">
@@ -187,22 +228,75 @@ const Predict = () => {
               onCompare={async (match) => {
                 await handleSearch(match.player1, setPlayer1Data);
                 await handleSearch(match.player2, setPlayer2Data);
+                
                 // Normaliza superficie para la API
-                let normalizedSurface = (match.surface || "").toLowerCase();
-                if (["clay", "arcilla"].includes(normalizedSurface)) normalizedSurface = "Clay";
-                else if (["hard", "dura"].includes(normalizedSurface)) normalizedSurface = "Hard";
-                else if (["grass", "césped"].includes(normalizedSurface)) normalizedSurface = "Grass";
-                else normalizedSurface = "";
+                let normalizedSurface = (match.surface || "").toLowerCase().trim();
+                if (["clay", "arcilla", "tierra", "tierra batida"].includes(normalizedSurface)) {
+                  normalizedSurface = "Clay";
+                } else if (["hard", "dura", "hard court", "pista dura"].includes(normalizedSurface)) {
+                  normalizedSurface = "Hard";
+                } else if (["grass", "césped", "hierba", "pasto"].includes(normalizedSurface)) {
+                  normalizedSurface = "Grass";
+                } else {
+                  normalizedSurface = "";
+                }
                 setSurface(normalizedSurface);
-                // Normaliza tipo de torneo para la API
-                let normalizedType = (match.tournamentType || "").toUpperCase();
-                if (["G", "grand slam", "grand slams", "gs"].includes(normalizedType) || normalizedType === "G") normalizedType = "G";
-                else if (["M", "masters", "masters 1000", "masters1000"].includes(normalizedType) || normalizedType === "M") normalizedType = "M";
-                else if (["A", "atp", "tour", "other tour-level events", "atp 250", "atp 500"].includes(normalizedType) || normalizedType === "A") normalizedType = "A";
-                else if (["F", "finals", "tour finals"].includes(normalizedType) || normalizedType === "F") normalizedType = "F";
-                else if (["D", "davis", "davis cup"].includes(normalizedType) || normalizedType === "D") normalizedType = "D";
-                else if (["O", "olympics", "olimpicos", "olimpics"].includes(normalizedType) || normalizedType === "O") normalizedType = "O";
-                else normalizedType = "";
+                
+                // Normaliza tipo de torneo para la API - Mejorado para más casos
+                let normalizedType = (match.tournamentType || "").toLowerCase().trim();
+                
+                // Grand Slam
+                if (normalizedType.includes("grand slam") || 
+                    normalizedType.includes("wimbledon") || 
+                    normalizedType.includes("roland garros") || 
+                    normalizedType.includes("french open") || 
+                    normalizedType.includes("us open") || 
+                    normalizedType.includes("australian open") || 
+                    normalizedType === "g" || 
+                    normalizedType === "gs") {
+                  normalizedType = "G";
+                }
+                // ATP Masters 1000
+                else if (normalizedType.includes("masters") || 
+                         normalizedType.includes("atp masters 1000") || 
+                         normalizedType.includes("masters 1000") || 
+                         normalizedType.includes("m1000") || 
+                         normalizedType === "m") {
+                  normalizedType = "M";
+                }
+                // ATP Tour (250, 500)
+                else if (normalizedType.includes("atp 250") || 
+                         normalizedType.includes("atp 500") || 
+                         normalizedType.includes("atp tour") || 
+                         normalizedType.includes("tour") || 
+                         normalizedType === "a" || 
+                         normalizedType === "atp") {
+                  normalizedType = "A";
+                }
+                // ATP Finals
+                else if (normalizedType.includes("finals") || 
+                         normalizedType.includes("tour finals") || 
+                         normalizedType.includes("atp finals") || 
+                         normalizedType === "f") {
+                  normalizedType = "F";
+                }
+                // Davis Cup
+                else if (normalizedType.includes("davis") || 
+                         normalizedType.includes("davis cup") || 
+                         normalizedType === "d") {
+                  normalizedType = "D";
+                }
+                // Olympics
+                else if (normalizedType.includes("olympic") || 
+                         normalizedType.includes("olimpic") || 
+                         normalizedType.includes("juegos olimpicos") || 
+                         normalizedType === "o") {
+                  normalizedType = "O";
+                }
+                else {
+                  normalizedType = "";
+                }
+                
                 setTournamentType(normalizedType);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
