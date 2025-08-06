@@ -1,10 +1,21 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useUserProfile } from "@/context/UserProfileContext";
 import { toast } from "@/hooks/use-toast";
 import { predictApiService } from "@/services/predictApi.service";
 import { tennisPlayerService } from "@/services/tennisPlayer.service";
 import confetti from "canvas-confetti";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, CreditCard } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast as sonnerToast } from "sonner";
 
 interface HeadToHeadStatsProps {
@@ -17,6 +28,7 @@ interface HeadToHeadStatsProps {
 }
 
 const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
+  const navigate = useNavigate();
   const player1Name = props.player1Name || "";
   const player2Name = props.player2Name || "";
   const surface = props.surface || "";
@@ -29,6 +41,7 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
   const [showPrediction, setShowPrediction] = useState(false);
   const [probabilities, setProbabilities] = useState<{p1: number, p2: number} | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showCreditsModal, setShowCreditsModal] = useState(false);
   const confettiShown = useRef(false);
   
   const { profile, updateCredits } = useUserProfile();
@@ -60,19 +73,7 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
   const handlePredict = async () => {
     // Verificar si el usuario tiene créditos
     if (profile?.credits === 0) {
-      sonnerToast.error(
-        <div className="flex items-center gap-3">
-          <AlertTriangle className="w-6 h-6 text-red-500 shrink-0" />
-          <div>
-            <div className="flex items-center gap-2 text-red-700 text-base font-bold">
-              Sin créditos disponibles
-            </div>
-            <div className="text-muted-foreground">
-              Necesitas créditos para realizar predicciones. Consulta nuestros planes.
-            </div>
-          </div>
-        </div>
-      );
+      setShowCreditsModal(true);
       return;
     }
 
@@ -261,12 +262,12 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
         <button
           className={`border-2 px-6 md:px-8 py-2 md:py-3 rounded-full font-semibold text-base md:text-lg transition-all duration-300 ease-in-out w-full max-w-xs md:w-auto ${
             profile?.credits === 0
-              ? 'bg-red-500/20 border-red-500 text-red-400 cursor-not-allowed'
+              ? 'bg-orange-500/20 border-orange-500 text-orange-400 hover:bg-orange-500/30 hover:scale-105'
               : 'bg-black/0 border-white text-white hover:bg-black/0 hover:scale-105 hover:shadow-lg'
           } disabled:opacity-60`}
           style={{ backdropFilter: 'blur(2px)' }}
           onClick={handlePredict}
-          disabled={loading || profile?.credits === 0}
+          disabled={loading}
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2 animate-pulse">
@@ -275,8 +276,8 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
             </span>
           ) : profile?.credits === 0 ? (
             <span className="flex items-center justify-center gap-2">
-              <AlertTriangle className="w-4 h-4 md:w-5 md:h-5" />
-              <span className="text-sm md:text-base">Sin créditos</span>
+              <CreditCard className="w-4 h-4 md:w-5 md:h-5" />
+              <span className="text-sm md:text-base">Sin créditos - recargar</span>
             </span>
           ) : "Predecir"}
         </button>
@@ -302,6 +303,33 @@ const HeadToHeadStats = (props: HeadToHeadStatsProps) => {
           </div>
         </div>
       )}
+
+      {/* Modal de confirmación para recargar créditos */}
+      <AlertDialog open={showCreditsModal} onOpenChange={setShowCreditsModal}>
+        <AlertDialogContent className="z-[200] fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <CreditCard className="w-5 h-5 text-orange-500" />
+              Sin créditos disponibles
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Necesitas créditos para realizar predicciones con IA. ¿Te gustaría ver nuestros planes y recargar créditos?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={() => {
+                setShowCreditsModal(false);
+                navigate("/Plans");
+              }}
+              className="bg-orange-500 hover:bg-orange-600"
+            >
+              Ver planes
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
