@@ -6,6 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+.env
+uc_profile_atp
+serviceAccountKey.json
 
 node_modules
 dist

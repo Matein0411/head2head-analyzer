@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* ATP Tennis theme - Dark blue navy base */
+    --background: 210 30% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 210 25% 12%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 210 25% 12%;
+    --popover-foreground: 210 40% 98%;
+
+    /* ATP Blue - main brand color */
+    --primary: 225 100% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 25% 15%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 210 25% 15%;
+    --muted-foreground: 210 15% 65%;
+
+    --accent: 50 100% 50%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 210 25% 20%;
+    --input: 210 25% 20%;
+    --ring: 225 100% 55%;
+
+    --radius: 0.5rem;
+    
+    /* ATP specific tokens */
+    --gradient-hero: linear-gradient(135deg, hsl(210 30% 8%), hsl(210 25% 12%));
+    --atp-blue: 225 100% 55%;
+    --atp-yellow: 50 100% 50%;
+    --player-card-bg: 210 25% 12%;
+    --stats-border: 210 25% 20%;
+
+    --sidebar-background: 210 25% 12%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Keep same colors as light mode for ATP consistency */
+    --background: 210 30% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 210 25% 12%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 210 25% 12%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 225 100% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 25% 15%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 210 25% 15%;
+    --muted-foreground: 210 15% 65%;
+
+    --accent: 50 100% 50%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 210 25% 20%;
+    --input: 210 25% 20%;
+    --ring: 225 100% 55%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Sonner toast customizations for mobile */
+@layer components {
+  [data-sonner-toaster] {
+    z-index: 99999 !important;
+  }
+  
+  /* Ensure toasts are above everything on mobile */
+  @media (max-width: 767px) {
+    [data-sonner-toaster] {
+      position: fixed !important;
+      top: 0 !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      z-index: 99999 !important;
+      width: 100% !important;
+      max-width: calc(100vw - 2rem) !important;
+    }
+    
+    [data-sonner-toast] {
+      margin-top: 6rem !important;
+      max-width: calc(100vw - 3rem) !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+    }
+  }
+}
