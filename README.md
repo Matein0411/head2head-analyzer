@@ -11,18 +11,18 @@
 
 ## 🚀 Características Principales
 
-- 🧠 **Predicciones con IA**: Modelo XGBoost entrenado con datos históricos del ATP
-- 📊 **Análisis Head-to-Head**: Comparación directa entre jugadores
+- **Predicciones con IA**: Modelo XGBoost entrenado con datos históricos del ATP
+- **Análisis Head-to-Head**: Comparación directa entre jugadores
 ![Analysis Screenshot](assets/img/vs.jpg)
-- 🎯 **Predicciones Contextuales**: Considera superficie, tipo de torneo y condiciones
-- 👤 **Perfiles de Jugadores**: Estadísticas detalladas y rendimiento histórico
-- 💳 **Sistema de Créditos**: Gestión de predicciones con planes de suscripción
+- **Predicciones Contextuales**: Considera superficie, tipo de torneo y condiciones
+- **Perfiles de Jugadores**: Estadísticas detalladas y rendimiento histórico
+- **Sistema de Créditos**: Gestión de predicciones con planes de suscripción
 ![Credit Screenshot](assets/img/planes.jpg)
-- 🔐 **Autenticación Firebase**: Registro y login seguro
-- 📱 **Bot de Telegram**: Acceso a predicciones desde Telegram
+- **Autenticación Firebase**: Registro y login seguro
+- **Bot de Telegram**: Acceso a predicciones desde Telegram
 ![Bot Screenshot](assets/img/bot_1.jpg)
 ![Bot Screenshot](assets/img/bot_2.jpg)
-- 🌐 **Responsive Design**: Optimizado para móviles y desktop
+- **Responsive Design**: Optimizado para móviles y desktop
 
 
 ## 🏗️ Arquitectura del Sistema
